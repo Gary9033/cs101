@@ -5,7 +5,10 @@ int main(){
     int a[7]={0},tmp=0,n;
     FILE *fp;
     fp=fopen("lotto.txt","w+");
+    fprintf(fp,"歡迎光臨長庚樂透彩購買機台\n");
     scanf("%d",&n);
+    fprintf(fp,"請問你要買幾組樂透彩: %d\n",n);
+    fprintf(fp,"已為您購買的%d組樂透組合輸出至 lotto.txt\n",n);
     fprintf(fp,"======== lotto033 =========\n");
     time_t curtime;
     time(&curtime);
