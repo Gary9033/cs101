@@ -2,32 +2,33 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
-#include <unistd.h>
+
 int main(){
-    int a[7]={0},tmp=0,n;
+    int a[7]={0},tmp=0,counter;
     char lotto[50]="lotto[0000";
     char last[50]="0]";
-    FILE* counterbin;
-   
+    FILE* fp;
+    fp=fopen("counter.bin","r");
 
     int arr_write[1]={1};
     int arr_read[1];
-    if(counterbin=fopen("counter.bin","rb+")==NULL){
-       counterbin= fopen("counter.bin","wb+");
-       fwrite(arr_write,sizeof(int),1,counterbin);
+    if(fp==NULL){
+     FILE* fp2= fopen("counter.bin","wb+");
+       fwrite(arr_write,sizeof(int),1,fp2);
     }else{
-    fseek(counterbin,0,SEEK_SET);  
-    fread(arr_write,sizeof(int),1,counterbin);
-    arr_write[0]=arr_read[0]+1;
-    fseek(counterbin,0,SEEK_SET);  
-    fwrite(arr_write,sizeof(int),1,counterbin);
+      fclose(fp);
     }
-    fseek(counterbin,0,SEEK_SET);
-    fread(arr_read, sizeof(int),1,counterbin);
-    fclose(counterbin);   
+    FILE *fp2=fopen("counter.bin","rb");
+       fread(arr_read,sizeof(int),1,fp2);
+       fclose(fp2);
+       counter=arr_read[0];
+    arr_write[0]=counter;
+    FILE* fp2=fopen("counter.bin","wb");
+    fwrite(arr_write,sizeof(int),1,fp2);
+    fclose(fp2);
+       
     
-    
-    if(arr_read[0]){
+    if(counter){
       last[0]='arr_read[0]';
       strcat(lotto,last);
     }
@@ -88,4 +89,3 @@ int main(){
         fclose(fp);
         
     }
-
