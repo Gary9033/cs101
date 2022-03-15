@@ -4,115 +4,81 @@
 #include <string.h>
 
 int main(){
-    int a[7]={0},tmp=0,counter;
-    char lotto[50]="lotto[0000";
-    char last[50]="0]";
-    FILE* fp;
-    fp=fopen("counter.bin","r");
-
-    int arr_write[1]={1};
-    int arr_read[1];
-    if(fp==NULL){
-     FILE* fp2= fopen("counter.bin","wb+");
-       fwrite(arr_write,sizeof(int),1,fp2);
-    }else{
-      fclose(fp);
+    FILE* fp_bin;
+    FILE* fp_txt;
+    FILE* op_bin;
+    int count[]={1};
+    op_bin = fopen("operator_id.bin","wb+");
+    if((fp_bin=fopen("count.bin","rb")) != NULL){
+        fread(count, sizeof(count), 1 ,fp_bin);
+        fclose(fp_bin);
     }
-    FILE *fp2=fopen("counter.bin","rb");
-       fread(arr_read,sizeof(int),1,fp2);
-       fclose(fp2);
-       counter=arr_read[0];
-    arr_write[0]=counter;
-    FILE* fp2=fopen("counter.bin","wb");
-    fwrite(arr_write,sizeof(int),1,fp2);
-    fclose(fp2);
-    
-
-
-
-    FILE* fp3;
-    fp=fopen("operator_id.bin","r");
-
-    int arr_opwrite[1]={1},op;
-    int arr_opread[1];
-    scanf("%d",op);
-    arr_opwrite[1]=op;
-    if(fp3==NULL){
-     FILE* fp3= fopen("operator_id.bin","wb+");
-       fwrite(arr_opwrite,sizeof(int),1,fp3);
-    }else{
-      fclose(fp3);
+    else{
+        fp_bin=fopen("count.bin","wb+");
+        fwrite(count, sizeof(count), 1, fp_bin);
+        fclose(fp_bin);
     }
-    FILE *fp3=fopen("operator_id.bin","rb");
-       fread(arr_opread,sizeof(int),1,fp3);
-       fclose(fp3);
-       counter=arr_opread[0];
-    arr_write[0]=counter;
-    FILE* fp3=fopen("operator_id.bin","wb");
-    fwrite(arr_opwrite,sizeof(int),1,fp2);
-    fclose(fp3);
-       
-    
-    if(counter){
-      last[0]='arr_read[0]';
-      strcat(lotto,last);
-    }
-    FILE *fp;
-    
-    fp=fopen(lotto,"w+");
-
+    fclose(op_bin);
+ 
    
-    scanf("%d",&n);
-   
-    fprintf(fp,"======== lotto649 =========\n");
-    fprintf(fp,"=======+ No.%0*d =========\n",5,arr_write[0]);
+    
     time_t curtime;
     time(&curtime);
+    int arr_num[5][7],group,flag,temp,ID;
+    srand((unsigned) time(NULL));
+    printf("請輸入操作人員ID:(0~5):");
+    scanf("%d",&ID);
+    printf("歡迎光臨長庚樂透彩購買機台,請問您要買幾組樂透彩:");
+    scanf("%d",&group);
 
-    fprintf(fp,"= %.24s=\n",ctime(&curtime));
-
-    for (int i=0;i<5;i++) {
-        fprintf(fp,"[%d]: ",i+1);
-        if (i<=(n-1)) {
-            for (int i=0;i<6;i++) {
-            a[i]=rand()%69+1;
+    char filename[50];
+    snprintf(filename, sizeof(filename), "lotto[%04d].txt",count[0]);
+    fp_txt = fopen(filename,"w+");
+    fprintf(fp_txt,"========= lotto649 =========\n");
+    fprintf(fp_txt,"========+ No.%05d +========\n",count[0]);
+    fprintf(fp_txt,"= %.*s =\n", 24, ctime(&curtime));
+    for(int i=0; i<5; i++){
+        if(group>=(i+1)){
+            for(int j=0; j<=6;){
+                do{
+                    j!=6? (arr_num[i][j] = rand()%69+1) : (arr_num[i][j] = rand()%10+1);
+                    flag=0;
+                    for(int k=0; k<j; k++){
+                        temp=0;
+                        if(arr_num[i][j]==arr_num[i][k]){
+                            flag=1;
+                        }
+                        else if(j<5 && arr_num[i][j]<arr_num[i][k]){
+                            temp=arr_num[i][j];
+                            arr_num[i][j]=arr_num[i][k];
+                            arr_num[i][k]=temp;
+                        }
+                    }
+                }while(flag==1);
+                j++;
             }
-            a[6]=rand()%9+1;
-            for (int i=0;i<6;i++) {
-              for (int j=i+1;j<6;j++) {
-                if (a[i]==a[j]) {
-                a[j]=rand()%69+1;
-                }
-             }
-           }
-        for (int j=5;j>0;j--) {
-        for (int k=0;k<=j-1;k++) {
-            if (a[k]>a[k+1]) {
-                tmp=a[k];
-                a[k]=a[k+1];
-                a[k+1]=tmp;
-            }
-          }
         }
-        for (int i=0;i<7;i++) {
-            if (a[i]<10) {
-                fprintf(fp,"0%d ",a[i]);
-            } else {fprintf(fp,"%d ",a[i]);
-          }
-         }
-        fprintf(fp,"\n");
-        } else {
-        for (int i=0;i<7;i++) {
-            fprintf(fp,"-- ");
-        }
-              fprintf(fp,"\n");
-        }     tmp=0;
-              for (int i=0;i<7;i++) {
-                  a[i]=0;
-                }
-        } 
-        fprintf(fp,"=======* Op.%0*d =========\n",5,arr_write[0]);
-        fprintf(fp,"======== csie@CGU =========\n");
-        fclose(fp);
-        
     }
+
+    for(int i=0; i<5; i++){
+        fprintf(fp_txt,"[%d] : ",i+1);
+        for(int j=0; j<=6; j++){
+            if(group>=(i+1)){
+                fprintf(fp_txt,"%02d ",arr_num[i][j]);
+            }
+            else{
+                fprintf(fp_txt,"-- ");
+            }
+        }
+        fprintf(fp_txt,"\n");
+    }
+    fprintf(fp_txt,"========* Op.0000%d *=========\n",ID);
+    fprintf(fp_txt,"========= csie@CGU =========\n");
+    printf("已為您購買的%d組樂透組合輸出至%s\n",group,filename);
+    fclose(fp_txt);
+
+    count[0]++;
+    fp_bin=fopen("count.bin","wb+");
+    fwrite(count,sizeof(count),1,fp_bin);
+    fclose(fp_bin);
+}
