@@ -113,14 +113,14 @@ int main(){
     printf("請輸入要新增操作人員 Salary:");
     scanf("%d",&salary);
     printf("輸入完成");
-    emp_record_t g;
-    g.emp_id=id;
-    strcpy(g.emp_name,opname);
-    g.emp_salary=salary;
+    emp_record_t a_g;
+    a_g.emp_id=id;
+    strcpy(a_g.emp_name,opname);
+    a_g.emp_salary=salary;
     FILE *fp5=fopen("operator_id.bin","ab");
-    fwrite(&g.emp_id,sizeof(int),1,fp5);
-    fwrite(g.emp_name,1,sizeof(g.emp_name),fp5);
-    fwrite(&g.emp_salary,sizeof(int),1,fp5);
+    fwrite(&a_g.emp_id,sizeof(int),1,fp5);
+    fwrite(&a_g.emp_name,sizeof(char),1,fp5);
+    fwrite(&a_g.emp_salary,sizeof(int),1,fp5);
     fclose(fp5);
 
    }

@@ -4,7 +4,7 @@
 int main(){
     int a[7]={0},tmp=0,n;
     FILE *fp;
-    fp=fopen("llotto.txt","w+");
+    fp=fopen("lotto.txt","w+");
     fprintf(fp,"歡迎光臨長庚樂透彩購買機台\n");
     scanf("%d",&n);
     fprintf(fp,"請問你要買幾組樂透彩: %d\n",n);
