@@ -15,7 +15,7 @@ void j(){
     int i=find_n(n,num);
     p=n+i-1;
 
-    printf("&n[%d]->%i, n[%d]=%d;p->%i,*p=%d\n",i,n+i-1,i,num,p,*p);
+    printf("&n[%d]->%p, n[%d]=%d;p->%p,*p=%d\n",i,n+i-1,i,num,p,*p);
 
 }
 void k(){
