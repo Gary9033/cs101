@@ -47,22 +47,16 @@ node_t* add_node(node_t* head,int new_data){
     return p;
 }
 node_t* del_node(node_t* head,int n){
-    node_t *current = head;
-	node_t *temp;
-    if(n==current->data){
-		head=current->next_node;
-		free(current);
-	}
-	while(current != NULL){
-		if(current->next_node->data==n) {
-			temp=current->next_node;
-			current->next_node=current->next_node->next_node;	
-			free(temp);
-			return head;
-		}
-		current=current->next_node;
-	}
-}
+   node_t* temp=head;
+   for(int i=0;i<n-1;i++)
+        {
+            temp=temp->next_node;
+        }
+        node_t *del =temp->next_node;       
+        temp->next_node=temp->next_node->next_node;
+        del->next_node=NULL;
+        free(del);                          
+    }
 
 int main(){ 
     node_t* head=NULL;
