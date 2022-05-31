@@ -1,4 +1,4 @@
-#include <iostream>
+##include <iostream>
 #include <string>
 
 using namespace std;
@@ -17,11 +17,9 @@ class Clock{
             sec=z;
             ti=f;
         }
-        void print_time(){
-            cout<<hour<<":"<<min<<":"<<sec<<" ";
-        }
+       
         void display(){
-            print_time();
+            cout<<hour<<":"<<min<<":"<<sec<<" ";
             cout<<ti<<endl;
         }
         
@@ -38,18 +36,13 @@ class StandardClock : Clock{
            flag=1;
         }
     }
-    
-   void print_time(){
-        cout<<hour<<":"<<min<<":"<<sec<<endl;
-    }
     void display(){
         if(!flag){
         cout<<"上午"<<" ";
         }else{
         cout<<"下午"<<" ";    
         }
-        print_time();
-        
+        cout<<hour<<":"<<min<<":"<<sec<<endl;
     }
 };
 class MilitaryClock : Clock{
@@ -63,15 +56,12 @@ class MilitaryClock : Clock{
            flag=1;
         }
     }
-    void print_time(int flag){
-        if(flag){
+    void display(){
+       if(flag){
             cout<<hour+12<<":";
         }else{
             cout<<hour<<":";
         }
-    }
-    void display(){
-        print_time(flag);
         cout<<min<<":"<<sec<<endl;
     }
 };
