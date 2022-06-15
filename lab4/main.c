@@ -15,7 +15,7 @@ void j(){
     int i=find_n(n,num);
     p=n+i;
 
-    printf("&n[%d]->%p, n[%d]=%d;p->%p,*p=%d\n",i,n+i-1,i,num,p,*p);
+    printf("&n[%d]->%p, n[%d]=%d;p->%p,*p=%d\n",i,n+i,i,num,p,*p);
 }
 void k(){
     int n[10]={6,4,7,2,0,9,8,1,5,3};
@@ -35,8 +35,9 @@ void k(){
         }
     }
     for(int i=0;i<10;i++){
-        ap[i]=n+find_n(n,m[i]);
-        printf("&n[%d]->%p, n[%d]=%d ;ap[%d]->%p,*ap[%d]=%d\n",find_n(n,i),n+find_n(n,i),find_n(n,i),i,i,ap[i],i,*ap[i]);
+        int loc=find_n(n,m[i+1]);
+        ap[i]=n+loc;
+        printf("&n[%d]->%p, n[%d]=%d ;ap[%d]->%p,*ap[%d]=%d\n",loc,n+loc,loc,n[loc],i,ap[i],i,*(ap[i]));
     }
 
 }
