@@ -20,13 +20,13 @@ void show_list(node_t* head){
 node_t* append_node(node_t* head,int new_data){
    node_t* new_node=allocate_node(new_data);
    if(head){
-       node_t* p=head;
+       node_t* p=head;//把head複製一份給p，(這裡沒有碰到head)
        while(p->next_node){
-           p=p->next_node;
+           p=p->next_node; //為了找list的最後一個，NULL的前一個會停
        }
-       p->next_node=new_node;
+       p->next_node=new_node;//下一個(next_node)把NULL改成new_node
    }
-   else {
+   else {   //這裡才有弄到head
        head=new_node;
     }
     return head;
@@ -44,7 +44,7 @@ void free_all_node(node_t* head){
 node_t* add_node(node_t* head,int new_data){
     node_t* p=allocate_node(new_data);
     p->next_node=head;
-    return p;
+    return p;//把p變成head
 }
 node_t* del_node(node_t* head,int n){
    node_t* temp=head;
